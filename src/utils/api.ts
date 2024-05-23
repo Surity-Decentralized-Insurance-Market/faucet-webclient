@@ -53,7 +53,7 @@ export function clearAddress() {
 }
 
 const api = {
-  async request(address: `0x${string}`) {
+  async request(address: `${string}`) {
     const response = await client.get(`/faucet/request/${address}`);
 
     const data = response.data;
@@ -73,14 +73,16 @@ const api = {
     const response = await client.get<{
       defaultTimeout: number;
       tokensPerRequest: number;
-    }>(`/faucet/balance`);
+    }>(`/faucet/configuration`);
 
     const data = response.data;
     return data;
   },
 
-  async getWaitTime(address: `0x${string}`) {
-    const response = await client.get<{ time: number }>(`/user/get/${address}`);
+  async getWaitTime(address: string) {
+    const response = await client.get<{ time: number }>(
+      `/faucet/next-request-time/${address}`
+    );
 
     const data = response.data.time - Date.now();
     return data < 0 ? 0 : data;
