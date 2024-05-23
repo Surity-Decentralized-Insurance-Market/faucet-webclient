@@ -14,6 +14,7 @@ export default function Hero() {
 
   async function handleInput(event: ChangeEvent<HTMLInputElement>) {
     const address = event.target.value;
+    setClaimable(false);
     if (!isAddress(address))
       return setDisplayInvalidMessage(address.length > 40);
     setDisplayInvalidMessage(false);
