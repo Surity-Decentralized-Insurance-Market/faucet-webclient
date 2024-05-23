@@ -34,8 +34,17 @@ function createApi() {
     },
 
     function (error) {
-      throw error;
-      //   return Promise.reject(errMsg.slice(1, -1));
+      const errMsg = JSON.stringify(
+        error?.response?.data?.error ||
+          error?.response?.data?.errors?.at(0)?.error ||
+          error?.message ||
+          error ||
+          `"unknown error happened"`
+      );
+
+      console.log(error, errMsg);
+
+      return Promise.reject(errMsg.slice(1, -1));
     }
   );
 
